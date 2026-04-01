@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laboratory Tutorials — LabLearn</title>
+  <!-- ═══ SEO META TAGS ═══════════════════════════════════════════════════
+       HOW TO UPDATE:
+       · description → keep under 160 characters for best Google display
+       · og:url      → update to your real domain after deploying
+       · og:image    → add a path to a 1200×630 banner image if you have one
+       ══════════════════════════════════════════════════════════════════ -->
+  <meta name="description"        content="Browse all LabLearn laboratory tutorials — from molarity and concentration to UV-Vis spectrophotometry and HPLC method development. Free, practical, and experience-based." />
+  <meta name="keywords"           content="laboratory tutorials, analytical chemistry tutorial, biochemistry lab guide, free chemistry tutorial, university lab" />
+  <meta name="author"             content="LabLearn" />
+  <meta name="robots"             content="index, follow" />
+
+  <!-- Open Graph — controls how the page looks when shared on WhatsApp,
+       Facebook, LinkedIn etc. The image below is optional but recommended. -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="LabLearn" />
+  <meta property="og:title"       content="Laboratory Tutorials — LabLearn" />
+  <meta property="og:description" content="Browse all LabLearn laboratory tutorials — from molarity and concentration to UV-Vis spectrophotometry and HPLC method development. Free, practical, and experience-based." />
+  <meta property="og:url"         content="https://lablearn.netlify.app/tutorials/index.html" />
+  <!-- <meta property="og:image" content="https://lablearn.netlify.app/og-image.jpg" /> -->
+  <!-- og:image should be 1200 × 630 px. Uncomment and add path when ready. -->
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Laboratory Tutorials — LabLearn" />
+  <meta name="twitter:description" content="Browse all LabLearn laboratory tutorials — from molarity and concentration to UV-Vis spectrophotometry and HPLC method development. Free, practical, and experience-based." />
+
+  <!-- Canonical URL — tells Google which URL is the definitive version.
+       Update SITE_URL to your real domain after deploying to Netlify. -->
+  <link rel="canonical" href="https://lablearn.netlify.app/tutorials/index.html" />
+
+  <!-- Favicon — uses the SVG in the root folder (works in all modern browsers) -->
+  <link rel="icon"             type="image/svg+xml" href="../favicon.svg" />
+  <link rel="alternate icon"   type="image/png"     href="../favicon.png" />
+    <link rel="stylesheet" href="../shared.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tutorial.css" />
+  <style>
+    /* index-specific overrides */
+    .tut-index { max-width: 1000px; margin: 0 auto; padding: 3.5rem 5%; }
+    .filter-bar { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .filter-btn { padding: 0.38rem 1rem; background: var(--white); border: 1px solid var(--border); border-radius: 3px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; color: var(--text-muted); transition: all 0.18s; }
+    .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active { background: var(--teal); color: var(--white); border-color: var(--teal); }
+    .tut-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem; }
+    .tut-card { background: var(--white); border: 1px solid var(--border); border-radius: 5px; padding: 1.75rem; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s; text-decoration: none; color: inherit; }
+    .tut-card:hover { transform: translateY(-3px); border-color: var(--teal); }
+    .tut-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.85rem; }
+    .tut-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; color: var(--navy); line-height: 1.3; }
+    .tut-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+    .tut-card-foot { display: flex; gap: 1rem; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: #8090a0; }
+    .tut-badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; white-space: nowrap; }
+    .tag-basic { background: rgba(11,124,110,0.12); color: #0b7c6e; }
+    .tag-intermediate { background: rgba(212,134,10,0.12); color: #a36500; }
+    .tag-advanced { background: rgba(168,50,50,0.12); color: #a33030; }
+    .section-index { margin-bottom: 3rem; }
+    .section-index-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--navy); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-index-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tut-card[data-level] { display: flex; }
+
+    @media (max-width: 640px) { }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Lab<span>Learn</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Tutorials</a></li>
+      <li><a href="../calculator.html">Calculators</a></li>
+      <li><a href="../apps.html">Apps</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../index.html#donate">Donate</a></li>
+    </ul>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+      <a href="../tutorials/index.html">Tutorials</a>
+      <a href="../calculator.html">Calculators</a>
+      <a href="../apps.html">Apps</a>
+      <a href="../contact.html">Contact</a>
+      <a href="../index.html#donate">Donate</a>
+      <a href="../tutorials/index.html" class="mob-cta">Start Learning</a>
+  </div>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <span>›</span>
+        <span>Tutorials</span>
+      </div>
+      <h1>Laboratory Tutorials</h1>
+      <p style="color:#7a9ab5;font-size:1rem;margin-top:0.5rem;max-width:560px;">Practical guides built from ten years of bench experience — from foundational concepts to advanced analytical techniques.</p>
+    </div>
+  </div>
+
+  <div class="tut-index">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All tutorials</button>
+      <button class="filter-btn" data-filter="basic">Beginner</button>
+      <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+      <button class="filter-btn" data-filter="advanced">Advanced</button>
+    </div>
+
+    <div class="section-index">
+      <div class="section-index-title">Beginner</div>
+      <div class="tut-grid">
+        <a class="tut-card" href="molarity-concentration.html" data-level="basic">
+          <div class="tut-card-head">
+            <h3>Molarity, Molality & Normality</h3>
+            <span class="tut-badge tag-basic">Beginner</span>
+          </div>
+          <p>A clear comparison of the three major concentration units with worked examples and guidance on when to use each in practice.</p>
+          <div class="tut-card-foot">
+            <span>📖 12 min</span>
+            <span>🔬 Quantitative Analysis</span>
+          </div>
+        </a>
+        <a class="tut-card" href="serial-dilutions.html" data-level="basic">
+          <div class="tut-card-head">
+            <h3>Serial Dilutions: Technique & Calculation</h3>
+            <span class="tut-badge tag-basic">Beginner</span>
+          </div>
+          <p>Master the serial dilution method used across microbiology, biochemistry, and clinical labs — with step-by-step practice problems.</p>
+          <div class="tut-card-foot">
+            <span>📖 10 min</span>
+            <span>🔬 Dilution Techniques</span>
+          </div>
+        </a>
+        <a class="tut-card" href="lab-safety.html" data-level="basic">
+          <div class="tut-card-head">
+            <h3>Lab Safety: Chemical Hazard Classes</h3>
+            <span class="tut-badge tag-basic">Beginner</span>
+          </div>
+          <p>GHS pictograms, SDS interpretation, and essential safety rules every laboratory user should know before handling chemicals.</p>
+          <div class="tut-card-foot">
+            <span>📖 8 min</span>
+            <span>🔬 Safety</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-index">
+      <div class="section-index-title">Intermediate</div>
+      <div class="tut-grid">
+        <a class="tut-card" href="uv-vis-spectrophotometry.html" data-level="intermediate">
+          <div class="tut-card-head">
+            <h3>UV-Vis Spectrophotometry Explained</h3>
+            <span class="tut-badge tag-intermediate">Intermediate</span>
+          </div>
+          <p>From the Beer-Lambert law to calibration curves — how to set up, run, and interpret UV-Vis spectrophotometric assays correctly.</p>
+          <div class="tut-card-foot">
+            <span>📖 18 min</span>
+            <span>🔬 Instrumentation</span>
+          </div>
+        </a>
+        <a class="tut-card" href="standard-solutions.html" data-level="intermediate">
+          <div class="tut-card-head">
+            <h3>Preparing Standard Solutions Accurately</h3>
+            <span class="tut-badge tag-intermediate">Intermediate</span>
+          </div>
+          <p>Common mistakes and best practices when preparing primary and secondary standards for quantitative analytical work.</p>
+          <div class="tut-card-foot">
+            <span>📖 14 min</span>
+            <span>🔬 Reagent Preparation</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="section-index">
+      <div class="section-index-title">Advanced</div>
+      <div class="tut-grid">
+        <a class="tut-card" href="hplc-method-development.html" data-level="advanced">
+          <div class="tut-card-head">
+            <h3>HPLC Method Development Fundamentals</h3>
+            <span class="tut-badge tag-advanced">Advanced</span>
+          </div>
+          <p>Choosing column chemistry, mobile phase composition, and gradient conditions — a practical introduction for analysts moving beyond UV-Vis.</p>
+          <div class="tut-card-foot">
+            <span>📖 25 min</span>
+            <span>🔬 Chromatography</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Lab<span>Learn</span></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Tutorials</a></li>
+      <li><a href="../calculator.html">Calculators</a></li>
+      <li><a href="../index.html#donate">Donate</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 LabLearn. Free for students &amp; researchers.</div>
+  </footer>
+
+  <script src="../shared.js" defer></script>
+</body>
+</html>

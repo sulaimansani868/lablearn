@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laboratory Calculators — Molarity, Dilution, Buffer & More | LabLearn</title>
+  <!-- ═══ SEO META TAGS ═══════════════════════════════════════════════════
+       HOW TO UPDATE:
+       · description → keep under 160 characters for best Google display
+       · og:url      → update to your real domain after deploying
+       · og:image    → add a path to a 1200×630 banner image if you have one
+       ══════════════════════════════════════════════════════════════════ -->
+  <meta name="description"        content="Free online laboratory calculators: molarity, dilution (C₁V₁=C₂V₂), percent solution, concentration unit converter, and buffer preparation with Henderson-Hasselbalch. No login required." />
+  <meta name="keywords"           content="molarity calculator, dilution calculator, buffer preparation, percent solution, concentration converter, lab calculator online" />
+  <meta name="author"             content="LabLearn" />
+  <meta name="robots"             content="index, follow" />
+
+  <!-- Open Graph — controls how the page looks when shared on WhatsApp,
+       Facebook, LinkedIn etc. The image below is optional but recommended. -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="LabLearn" />
+  <meta property="og:title"       content="Laboratory Calculators — Molarity, Dilution, Buffer & More | LabLearn" />
+  <meta property="og:description" content="Free online laboratory calculators: molarity, dilution (C₁V₁=C₂V₂), percent solution, concentration unit converter, and buffer preparation with Henderson-Hasselbalch. No login required." />
+  <meta property="og:url"         content="https://lablearn.netlify.app/calculator.html" />
+  <!-- <meta property="og:image" content="https://lablearn.netlify.app/og-image.jpg" /> -->
+  <!-- og:image should be 1200 × 630 px. Uncomment and add path when ready. -->
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="Laboratory Calculators — Molarity, Dilution, Buffer & More | LabLearn" />
+  <meta name="twitter:description" content="Free online laboratory calculators: molarity, dilution (C₁V₁=C₂V₂), percent solution, concentration unit converter, and buffer preparation with Henderson-Hasselbalch. No login required." />
+
+  <!-- Canonical URL — tells Google which URL is the definitive version.
+       Update SITE_URL to your real domain after deploying to Netlify. -->
+  <link rel="canonical" href="https://lablearn.netlify.app/calculator.html" />
+
+  <!-- Favicon — uses the SVG in the root folder (works in all modern browsers) -->
+  <link rel="icon"             type="image/svg+xml" href="favicon.svg" />
+  <link rel="alternate icon"   type="image/png"     href="favicon.png" />
+    <link rel="stylesheet" href="shared.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* NAV */
+    @media (max-width: 900px) { }
+
+    /* PAGE HEADER */
+    .page-header { background: var(--navy); padding: 3.5rem 5% 3rem; position: relative; overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(11,124,110,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(11,124,110,0.08) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; }
+    .page-header-inner { position: relative; }
+    .page-tag { display: inline-block; background: rgba(11,124,110,0.25); border: 1px solid rgba(19,168,150,0.4); color: #5ee8d8; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 1rem; text-transform: uppercase; }
+    .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; color: var(--white); line-height: 1.15; margin-bottom: 0.6rem; }
+    .page-header p { color: #7a9ab5; font-size: 1rem; max-width: 560px; }
+
+    /* TAB NAV — sticks just below the main nav (60px) */
+	.tab-nav {
+		background: var(--white);
+		border-bottom: 2px solid var(--border);
+		padding: 0 5%;
+		display: flex;
+		gap: 0;
+		overflow-x: auto;
+		position: sticky;
+		top: 60px;
+		z-index: 50;
+	}
+    .tab-btn { padding: 1rem 1.5rem; background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: color 0.2s, border-color 0.2s; letter-spacing: 0.02em; }
+    .tab-btn:hover { color: var(--teal); }
+    .tab-btn.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* MAIN LAYOUT */
+    .calc-main { max-width: 920px; margin: 0 auto; padding: 3rem 5%; }
+
+    /* CALC PANELS */
+    .calc-panel { display: none; }
+    .calc-panel.active { display: block; }
+
+    .calc-title { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+    .calc-desc { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 620px; line-height: 1.7; }
+
+    /* FORMULA BOX */
+    .formula-box { background: var(--navy); color: var(--white); border-radius: 5px; padding: 1rem 1.5rem; margin-bottom: 2rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; display: flex; align-items: center; gap: 1rem; border-left: 3px solid var(--teal); }
+    .formula-label { color: #5ee8d8; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+    .formula-expr { color: var(--amber-light); font-size: 1rem; }
+
+    /* SOLVER MODES */
+    .solve-modes { display: flex; gap: 0.5rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .mode-btn { padding: 0.4rem 1rem; background: var(--cream-dark); border: 1px solid var(--border); border-radius: 3px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; color: var(--text-muted); transition: all 0.18s; }
+    .mode-btn.active { background: var(--teal); color: var(--white); border-color: var(--teal); }
+
+    /* FIELDS GRID */
+    .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+    @media (max-width: 540px) { .fields-grid { grid-template-columns: 1fr; } }
+
+    .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field-group label { font-size: 0.82rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.03em; }
+    .field-row { display: flex; gap: 0.5rem; }
+    .field-row input { flex: 1; min-width: 0; }
+
+    input[type="number"], input[type="text"], select {
+      width: 100%; padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border); border-radius: 3px;
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.95rem; color: var(--text);
+      background: var(--white); transition: border-color 0.18s;
+    }
+    input[type="number"]:focus, input[type="text"]:focus, select:focus {
+      outline: none; border-color: var(--teal);
+    }
+    input.result-field { background: var(--success-bg); border-color: var(--teal); color: var(--success); font-weight: 600; cursor: default; }
+    input.error-field { background: var(--danger-bg); border-color: var(--danger); color: var(--danger); }
+
+    select { cursor: pointer; }
+
+    .calc-btn {
+      padding: 0.75rem 2rem; background: var(--teal); color: var(--white);
+      border: none; border-radius: 3px; font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .calc-btn:hover { background: var(--teal-light); transform: translateY(-1px); }
+    .reset-btn { padding: 0.75rem 1.25rem; background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 3px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; cursor: pointer; transition: border-color 0.18s; margin-left: 0.75rem; }
+    .reset-btn:hover { border-color: var(--text-muted); }
+
+    /* RESULT CARD */
+    .result-card { background: var(--success-bg); border: 1px solid rgba(11,124,110,0.25); border-left: 4px solid var(--teal); border-radius: 4px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; display: none; }
+    .result-card.show { display: block; }
+    .result-card.error { background: var(--danger-bg); border-color: rgba(192,57,43,0.25); border-left-color: var(--danger); }
+    .result-label { font-size: 0.75rem; font-weight: 500; color: var(--success); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+    .result-card.error .result-label { color: var(--danger); }
+    .result-value { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--navy); }
+    .result-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+    /* DIVIDER */
+    .calc-divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+    /* UNIT CONVERTER TABLE */
+    .unit-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .unit-table th { text-align: left; padding: 0.6rem 0.9rem; background: var(--navy); color: #7a9ab5; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .unit-table td { padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .unit-table tr:last-child td { border-bottom: none; }
+    .unit-table tr:hover td { background: var(--cream-dark); }
+    .unit-highlight td { background: var(--success-bg) !important; color: var(--success); font-weight: 600; }
+
+    /* TIPS BOX */
+    .tips-box { background: rgba(245,166,35,0.08); border: 1px solid rgba(212,134,10,0.2); border-radius: 4px; padding: 1.25rem 1.5rem; margin-top: 2rem; }
+    .tips-box h4 { font-size: 0.85rem; font-weight: 600; color: var(--amber); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .tips-box ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .tips-box li { font-size: 0.88rem; color: var(--text-muted); display: flex; gap: 0.6rem; }
+    .tips-box li::before { content: '→'; color: var(--amber); flex-shrink: 0; }
+
+    /* SECTION HEADER inside calc */
+    .calc-section-head { margin: 2.5rem 0 1.25rem; }
+    .calc-section-head h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--navy); }
+    .calc-section-head p { font-size: 0.87rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* BUFFER PREP */
+    .buf-system-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 0.65rem; margin-bottom: 1.75rem; }
+    .buf-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; cursor: pointer; transition: all 0.18s; }
+    .buf-card:hover { border-color: var(--teal); background: var(--success-bg); }
+    .buf-card.selected { border-color: var(--teal); background: var(--success-bg); box-shadow: 0 0 0 2px rgba(11,124,110,0.18); }
+    .buf-card-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .buf-card-range { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .buf-card-pka { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--teal); margin-top: 0.15rem; }
+    .buf-recipe { background: var(--white); border: 1px solid var(--border); border-radius: 5px; border-top: 3px solid var(--teal); padding: 1.5rem; margin-top: 1.5rem; display: none; }
+    .buf-recipe.show { display: block; }
+    .buf-recipe-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 600; color: var(--navy); margin-bottom: 1.1rem; }
+    .buf-steps { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
+    .buf-step { display: flex; gap: 0.85rem; align-items: flex-start; font-size: 0.9rem; }
+    .buf-step-n { min-width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .buf-val { font-weight: 600; color: var(--navy); }
+    .buf-warn { background: rgba(245,166,35,0.1); border: 1px solid rgba(212,134,10,0.25); border-radius: 3px; padding: 0.75rem 1rem; margin-top: 1rem; font-size: 0.84rem; color: #7a5010; }
+    .buf-warn strong { color: var(--amber); }
+    .buf-ref-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 1rem; }
+    .buf-ref-table th { background: var(--navy); color: #7a9ab5; text-align: left; padding: 0.55rem 0.85rem; font-size: 0.73rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+    .buf-ref-table td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border); }
+    .buf-ref-table tr:last-child td { border-bottom: none; }
+    .buf-ref-table tr:hover td { background: var(--cream-dark); }
+    .buf-ph-bar { display: inline-block; height: 8px; border-radius: 4px; background: linear-gradient(90deg, var(--teal), var(--teal-light)); vertical-align: middle; }
+    .hh-result-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    @media (max-width: 480px) { .hh-result-row { grid-template-columns: 1fr; } }
+    .hh-result-box { background: var(--success-bg); border: 1px solid rgba(11,124,110,0.25); border-radius: 4px; padding: 1rem 1.25rem; }
+    .hh-result-box.error { background: var(--danger-bg); border-color: rgba(192,57,43,0.25); }
+    .hh-lbl { font-size: 0.72rem; font-weight: 500; color: var(--success); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .hh-result-box.error .hh-lbl { color: var(--danger); }
+    .hh-val { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 600; color: var(--navy); line-height: 1; }
+    .hh-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .ph-indicator { height: 10px; border-radius: 5px; background: linear-gradient(90deg,#c0392b,#e67e22,#f1c40f,#2ecc71,#27ae60,#1abc9c,#2980b9,#8e44ad); margin: 1rem 0 0.35rem; position: relative; }
+    .ph-marker { position: absolute; top: -3px; width: 16px; height: 16px; border-radius: 50%; background: var(--navy); border: 2px solid #fff; transform: translateX(-50%); transition: left 0.3s ease; }
+    .ph-scale { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--text-muted); }
+
+    @media (max-width: 900px) { }
+  </style>
+  <!-- Theme colour — colours the browser UI chrome on Android and iOS.
+       Value matches the nav bar colour so the site feels seamless.
+       To change: update the content value to any hex colour. -->
+  <meta name="theme-color" content="#0d1f2d" />
+
+  <!-- iOS home screen / PWA settings
+       Lets users add LabLearn to their phone home screen.
+       It opens without a browser address bar, like a native app. -->
+  <meta name="apple-mobile-web-app-capable"          content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title"            content="LabLearn" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Lab<span>Learn</span></a>
+    <ul class="nav-links">
+      <li><a href="tutorials/index.html">Tutorials</a></li>
+      <li><a href="calculator.html" class="active">Calculators</a></li>
+      <li><a href="apps.html">Apps</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html#donate">Donate</a></li>
+      <li><a href="tutorials/index.html" style="background:var(--teal);color:#fff!important;padding:0.4rem 1.1rem;border-radius:3px;">Start Learning</a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+    <a href="tutorials/index.html">Tutorials</a>
+    <a href="calculator.html" class="active">Calculators</a>
+    <a href="apps.html">Apps</a>
+    <a href="contact.html">Contact</a>
+    <a href="index.html#donate">Donate</a>
+    <a href="tutorials/index.html" class="mob-cta">Start Learning</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="page-tag">Online Tools</div>
+      <h1>Laboratory Calculators</h1>
+      <p>Accurate, instant calculations for the most common laboratory tasks — molarity, dilutions, percent solutions, and unit conversion. No login required.</p>
+    </div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" data-tab="molarity">Molarity</button>
+    <button class="tab-btn" data-tab="dilution">Dilution (C₁V₁)</button>
+    <button class="tab-btn" data-tab="percent">Percent Solution</button>
+    <button class="tab-btn" data-tab="units">Unit Converter</button>
+    <button class="tab-btn" data-tab="buffer">Buffer Preparation</button>
+  </div><!-- /tab-nav -->
+
+  <!-- CALCULATORS -->
+  <div class="calc-main">
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- TAB 1: MOLARITY                           -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="calc-panel active" id="tab-molarity">
+      <h2 class="calc-title">Molarity Calculator</h2>
+      <p class="calc-desc">Calculate molarity (concentration in mol/L), mass of solute needed, or volume of solution. Select what you want to find, fill in the known values, and click Calculate.</p>
+
+      <div class="formula-box">
+        <span class="formula-label">Formula</span>
+        <span class="formula-expr">M = n / V &nbsp;→&nbsp; M = (mass / MW) / V(L)</span>
+      </div>
+
+      <div class="solve-modes" id="mol-modes">
+        <button class="mode-btn active" data-mode="M">Find Molarity (M)</button>
+        <button class="mode-btn" data-mode="mass">Find Mass (g)</button>
+        <button class="mode-btn" data-mode="V">Find Volume (L)</button>
+      </div>
+
+      <!-- Find Molarity -->
+      <div id="mol-form-M">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Mass of solute (g)</label>
+            <input type="number" id="mol-mass-M" placeholder="e.g. 5.85" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Molar mass / MW (g/mol)</label>
+            <input type="number" id="mol-mw-M" placeholder="e.g. 58.44 for NaCl" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Volume of solution</label>
+            <div class="field-row">
+              <input type="number" id="mol-vol-M" placeholder="e.g. 1" min="0" />
+              <select id="mol-vol-unit-M" style="width:90px;flex-shrink:0">
+                <option value="L">L</option>
+                <option value="mL">mL</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcMolarity()">Calculate</button>
+        <button class="reset-btn" onclick="resetMol()">Reset</button>
+        <div class="result-card" id="mol-result-M">
+          <div class="result-label">Molarity</div>
+          <div class="result-value" id="mol-result-M-val"></div>
+          <div class="result-note" id="mol-result-M-note"></div>
+        </div>
+      </div>
+
+      <!-- Find Mass -->
+      <div id="mol-form-mass" style="display:none">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Target molarity (mol/L)</label>
+            <input type="number" id="mol-conc-mass" placeholder="e.g. 0.1" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Molar mass / MW (g/mol)</label>
+            <input type="number" id="mol-mw-mass" placeholder="e.g. 58.44 for NaCl" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Volume of solution</label>
+            <div class="field-row">
+              <input type="number" id="mol-vol-mass" placeholder="e.g. 500" min="0" />
+              <select id="mol-vol-unit-mass" style="width:90px;flex-shrink:0">
+                <option value="L">L</option>
+                <option value="mL" selected>mL</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcMass()">Calculate</button>
+        <button class="reset-btn" onclick="resetMol()">Reset</button>
+        <div class="result-card" id="mol-result-mass">
+          <div class="result-label">Mass of solute required</div>
+          <div class="result-value" id="mol-result-mass-val"></div>
+          <div class="result-note" id="mol-result-mass-note"></div>
+        </div>
+      </div>
+
+      <!-- Find Volume -->
+      <div id="mol-form-V" style="display:none">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Target molarity (mol/L)</label>
+            <input type="number" id="mol-conc-V" placeholder="e.g. 0.5" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Mass of solute (g)</label>
+            <input type="number" id="mol-mass-V" placeholder="e.g. 2.92" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Molar mass / MW (g/mol)</label>
+            <input type="number" id="mol-mw-V" placeholder="e.g. 58.44 for NaCl" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcVolume()">Calculate</button>
+        <button class="reset-btn" onclick="resetMol()">Reset</button>
+        <div class="result-card" id="mol-result-V">
+          <div class="result-label">Volume of solution</div>
+          <div class="result-value" id="mol-result-V-val"></div>
+          <div class="result-note" id="mol-result-V-note"></div>
+        </div>
+      </div>
+
+      <div class="tips-box">
+        <h4>Quick reference — common molar masses</h4>
+        <ul>
+          <li>NaCl — 58.44 g/mol</li>
+          <li>NaOH — 40.00 g/mol</li>
+          <li>HCl — 36.46 g/mol</li>
+          <li>H₂SO₄ — 98.08 g/mol</li>
+          <li>Glucose (C₆H₁₂O₆) — 180.16 g/mol</li>
+          <li>Na₂CO₃ — 105.99 g/mol</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- TAB 2: DILUTION                           -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="calc-panel" id="tab-dilution">
+      <h2 class="calc-title">Dilution Calculator (C₁V₁ = C₂V₂)</h2>
+      <p class="calc-desc">Use the dilution equation to find any one unknown — initial or final concentration, or initial or final volume. Fill in three known values.</p>
+
+      <div class="formula-box">
+        <span class="formula-label">Formula</span>
+        <span class="formula-expr">C₁ × V₁ = C₂ × V₂</span>
+      </div>
+
+      <div class="solve-modes" id="dil-modes">
+        <button class="mode-btn active" data-mode="C2">Find C₂ (final conc.)</button>
+        <button class="mode-btn" data-mode="V2">Find V₂ (final vol.)</button>
+        <button class="mode-btn" data-mode="C1">Find C₁ (initial conc.)</button>
+        <button class="mode-btn" data-mode="V1">Find V₁ (initial vol.)</button>
+      </div>
+
+      <div class="fields-grid" id="dil-fields">
+        <div class="field-group">
+          <label>C₁ — initial concentration</label>
+          <div class="field-row">
+            <input type="number" id="dil-C1" placeholder="e.g. 1.0" min="0" />
+            <select id="dil-C1-unit" style="width:90px;flex-shrink:0">
+              <option>mol/L</option><option>mmol/L</option><option>g/L</option><option>mg/L</option><option>µg/L</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>V₁ — initial volume</label>
+          <div class="field-row">
+            <input type="number" id="dil-V1" placeholder="e.g. 10" min="0" />
+            <select id="dil-V1-unit" style="width:80px;flex-shrink:0">
+              <option>mL</option><option>L</option><option>µL</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>C₂ — final concentration</label>
+          <div class="field-row">
+            <input type="number" id="dil-C2" placeholder="e.g. 0.1" min="0" />
+            <select id="dil-C2-unit" style="width:90px;flex-shrink:0">
+              <option>mol/L</option><option>mmol/L</option><option>g/L</option><option>mg/L</option><option>µg/L</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>V₂ — final volume</label>
+          <div class="field-row">
+            <input type="number" id="dil-V2" placeholder="e.g. 100" min="0" />
+            <select id="dil-V2-unit" style="width:80px;flex-shrink:0">
+              <option>mL</option><option>L</option><option>µL</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calcDilution()">Calculate</button>
+      <button class="reset-btn" onclick="resetDil()">Reset</button>
+
+      <div class="result-card" id="dil-result">
+        <div class="result-label">Result</div>
+        <div class="result-value" id="dil-result-val"></div>
+        <div class="result-note" id="dil-result-note"></div>
+      </div>
+
+      <div class="tips-box" style="margin-top:2rem">
+        <h4>How to use this calculator</h4>
+        <ul>
+          <li>Select the unknown you want to find using the mode buttons above.</li>
+          <li>The units on C₁ and C₂ must be the same — the calculator keeps them consistent.</li>
+          <li>V₁ should always be less than V₂ for a standard dilution.</li>
+          <li>Dilution factor = V₂ / V₁ (shown in the result).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- TAB 3: PERCENT SOLUTION                   -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="calc-panel" id="tab-percent">
+      <h2 class="calc-title">Percent Solution Calculator</h2>
+      <p class="calc-desc">Calculate weight/volume (% w/v), weight/weight (% w/w), or volume/volume (% v/v) percent concentrations for any solution.</p>
+
+      <div class="solve-modes" id="pct-modes">
+        <button class="mode-btn active" data-mode="wv">% w/v (mass / volume)</button>
+        <button class="mode-btn" data-mode="ww">% w/w (mass / mass)</button>
+        <button class="mode-btn" data-mode="vv">% v/v (volume / volume)</button>
+      </div>
+
+      <!-- % w/v -->
+      <div id="pct-form-wv">
+        <div class="formula-box"><span class="formula-label">Formula</span><span class="formula-expr">% w/v = (g of solute / mL of solution) × 100</span></div>
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Mass of solute (g)</label>
+            <input type="number" id="pct-mass-wv" placeholder="e.g. 5" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Volume of solution (mL)</label>
+            <input type="number" id="pct-vol-wv" placeholder="e.g. 100" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcPctWV()">Calculate</button>
+        <button class="reset-btn" onclick="resetPct()">Reset</button>
+        <div class="result-card" id="pct-result-wv">
+          <div class="result-label">% w/v concentration</div>
+          <div class="result-value" id="pct-result-wv-val"></div>
+          <div class="result-note" id="pct-result-wv-note"></div>
+        </div>
+      </div>
+
+      <!-- % w/w -->
+      <div id="pct-form-ww" style="display:none">
+        <div class="formula-box"><span class="formula-label">Formula</span><span class="formula-expr">% w/w = (g of solute / g of solution) × 100</span></div>
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Mass of solute (g)</label>
+            <input type="number" id="pct-mass-solute-ww" placeholder="e.g. 10" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Mass of solution (g)</label>
+            <input type="number" id="pct-mass-soln-ww" placeholder="e.g. 100" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcPctWW()">Calculate</button>
+        <button class="reset-btn" onclick="resetPct()">Reset</button>
+        <div class="result-card" id="pct-result-ww">
+          <div class="result-label">% w/w concentration</div>
+          <div class="result-value" id="pct-result-ww-val"></div>
+          <div class="result-note" id="pct-result-ww-note"></div>
+        </div>
+      </div>
+
+      <!-- % v/v -->
+      <div id="pct-form-vv" style="display:none">
+        <div class="formula-box"><span class="formula-label">Formula</span><span class="formula-expr">% v/v = (mL of solute / mL of solution) × 100</span></div>
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Volume of solute (mL)</label>
+            <input type="number" id="pct-vol-solute-vv" placeholder="e.g. 70" min="0" />
+          </div>
+          <div class="field-group">
+            <label>Volume of solution (mL)</label>
+            <input type="number" id="pct-vol-soln-vv" placeholder="e.g. 1000" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcPctVV()">Calculate</button>
+        <button class="reset-btn" onclick="resetPct()">Reset</button>
+        <div class="result-card" id="pct-result-vv">
+          <div class="result-label">% v/v concentration</div>
+          <div class="result-value" id="pct-result-vv-val"></div>
+          <div class="result-note" id="pct-result-vv-note"></div>
+        </div>
+      </div>
+
+      <div class="tips-box">
+        <h4>When to use each type</h4>
+        <ul>
+          <li>% w/v — most common in analytical chemistry (e.g. 0.9% NaCl saline)</li>
+          <li>% w/w — used when density varies or for solid mixtures</li>
+          <li>% v/v — used for liquid/liquid mixtures (e.g. 70% ethanol)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- TAB 4: UNIT CONVERTER                     -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="calc-panel" id="tab-units">
+      <h2 class="calc-title">Concentration Unit Converter</h2>
+      <p class="calc-desc">Convert a concentration value between common units. Enter a value and molar mass (for mol-based conversions), and see results across all units instantly.</p>
+
+      <div class="fields-grid">
+        <div class="field-group">
+          <label>Input value</label>
+          <input type="number" id="unit-value" placeholder="e.g. 1.0" min="0" oninput="convertUnits()" />
+        </div>
+        <div class="field-group">
+          <label>Input unit</label>
+          <select id="unit-from" onchange="convertUnits()">
+            <optgroup label="Molar">
+              <option value="mol_L">mol/L (M)</option>
+              <option value="mmol_L">mmol/L (mM)</option>
+              <option value="µmol_L">µmol/L (µM)</option>
+              <option value="nmol_L">nmol/L (nM)</option>
+            </optgroup>
+            <optgroup label="Mass/Volume">
+              <option value="g_L">g/L</option>
+              <option value="mg_L">mg/L</option>
+              <option value="µg_L">µg/L (= ppm approx.)</option>
+              <option value="ng_L">ng/L</option>
+              <option value="g_dL">g/dL</option>
+              <option value="mg_dL">mg/dL</option>
+            </optgroup>
+            <optgroup label="Percent">
+              <option value="pct_wv">% w/v</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Molar mass MW (g/mol) <span style="font-weight:400;font-size:0.75rem;color:var(--text-muted)">— for mol↔mass conversion</span></label>
+          <input type="number" id="unit-mw" placeholder="e.g. 58.44" min="0" oninput="convertUnits()" />
+        </div>
+      </div>
+
+      <table class="unit-table" id="unit-table">
+        <thead><tr><th>Unit</th><th>Converted value</th></tr></thead>
+        <tbody id="unit-tbody"></tbody>
+      </table>
+
+      <div class="tips-box">
+        <h4>Notes on unit conversion</h4>
+        <ul>
+          <li>Molar mass is required to convert between molar (mol/L) and mass-based (g/L, mg/dL) units.</li>
+          <li>1 mg/L ≈ 1 ppm by mass for dilute aqueous solutions (density ≈ 1 g/mL).</li>
+          <li>g/dL is commonly used in clinical labs (e.g. blood glucose, haemoglobin).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /calc-main -->
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- TAB 5: BUFFER PREPARATION (outside calc-main wrapper) -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="calc-panel" id="tab-buffer" style="max-width:920px;margin:0 auto;padding:3rem 5%">
+
+    <h2 class="calc-title">Buffer Preparation Calculator</h2>
+    <p class="calc-desc">Two tools in one: a Henderson-Hasselbalch solver for pH and ratio calculations, and a recipe calculator that tells you exactly how much acid and conjugate base to weigh for any common buffer system.</p>
+
+    <!-- ── SUB-TABS ── -->
+    <div class="solve-modes" id="buf-modes" style="margin-bottom:2rem">
+      <button class="mode-btn active" data-bmode="recipe">Recipe calculator</button>
+      <button class="mode-btn" data-bmode="hh">Henderson-Hasselbalch</button>
+      <button class="mode-btn" data-bmode="ref">Buffer reference</button>
+    </div>
+
+    <!-- ════════ RECIPE CALCULATOR ════════ -->
+    <div id="buf-recipe-panel">
+
+      <div class="formula-box">
+        <span class="formula-label">Basis</span>
+        <span class="formula-expr">pH = pKₐ + log([A⁻] / [HA]) &nbsp;·&nbsp; mass = c × V × MW</span>
+      </div>
+
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:1.25rem">Select a buffer system, then enter your target pH, concentration, and volume.</p>
+
+      <!-- System picker -->
+      <div class="buf-system-grid" id="bufSystemGrid">
+        <div class="buf-card selected" data-sys="acetate">
+          <div class="buf-card-name">Acetate</div>
+          <div class="buf-card-range">pH 3.6 – 5.6</div>
+          <div class="buf-card-pka">pKa 4.76</div>
+        </div>
+        <div class="buf-card" data-sys="phosphate">
+          <div class="buf-card-name">Phosphate</div>
+          <div class="buf-card-range">pH 5.8 – 8.0</div>
+          <div class="buf-card-pka">pKa 7.20</div>
+        </div>
+        <div class="buf-card" data-sys="tris">
+          <div class="buf-card-name">Tris</div>
+          <div class="buf-card-range">pH 7.0 – 9.0</div>
+          <div class="buf-card-pka">pKa 8.06</div>
+        </div>
+        <div class="buf-card" data-sys="hepes">
+          <div class="buf-card-name">HEPES</div>
+          <div class="buf-card-range">pH 6.8 – 8.2</div>
+          <div class="buf-card-pka">pKa 7.48</div>
+        </div>
+        <div class="buf-card" data-sys="mes">
+          <div class="buf-card-name">MES</div>
+          <div class="buf-card-range">pH 5.5 – 6.7</div>
+          <div class="buf-card-pka">pKa 6.15</div>
+        </div>
+        <div class="buf-card" data-sys="mops">
+          <div class="buf-card-name">MOPS</div>
+          <div class="buf-card-range">pH 6.5 – 7.9</div>
+          <div class="buf-card-pka">pKa 7.20</div>
+        </div>
+        <div class="buf-card" data-sys="citrate">
+          <div class="buf-card-name">Citrate</div>
+          <div class="buf-card-range">pH 3.0 – 6.2</div>
+          <div class="buf-card-pka">pKa 3.13 / 4.76 / 6.40</div>
+        </div>
+        <div class="buf-card" data-sys="borate">
+          <div class="buf-card-name">Borate</div>
+          <div class="buf-card-range">pH 8.0 – 10.0</div>
+          <div class="buf-card-pka">pKa 9.24</div>
+        </div>
+        <div class="buf-card" data-sys="bicarbonate">
+          <div class="buf-card-name">Bicarbonate</div>
+          <div class="buf-card-range">pH 9.2 – 10.8</div>
+          <div class="buf-card-pka">pKa 10.33</div>
+        </div>
+        <div class="buf-card" data-sys="pipes">
+          <div class="buf-card-name">PIPES</div>
+          <div class="buf-card-range">pH 6.1 – 7.5</div>
+          <div class="buf-card-pka">pKa 6.76</div>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="fields-grid">
+        <div class="field-group">
+          <label>Target pH</label>
+          <input type="number" id="buf-ph" placeholder="e.g. 7.4" step="0.01" min="0" max="14" />
+        </div>
+        <div class="field-group">
+          <label>Total buffer concentration (mol/L)</label>
+          <input type="number" id="buf-conc" placeholder="e.g. 0.1" step="0.01" min="0" />
+        </div>
+        <div class="field-group">
+          <label>Final volume</label>
+          <div class="field-row">
+            <input type="number" id="buf-vol" placeholder="e.g. 500" min="0" />
+            <select id="buf-vol-unit" style="width:80px;flex-shrink:0">
+              <option>mL</option>
+              <option>L</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Temperature (°C) <span style="font-weight:400;font-size:0.75rem;color:var(--text-muted)">— affects Tris pKa</span></label>
+          <input type="number" id="buf-temp" placeholder="e.g. 25" value="25" min="0" max="100" />
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcBuffer()">Calculate recipe</button>
+      <button class="reset-btn" onclick="resetBuffer()">Reset</button>
+
+      <!-- Recipe output -->
+      <div class="buf-recipe" id="buf-recipe-out"></div>
+
+    </div><!-- /buf-recipe-panel -->
+
+    <!-- ════════ HENDERSON-HASSELBALCH ════════ -->
+    <div id="buf-hh-panel" style="display:none">
+
+      <div class="formula-box">
+        <span class="formula-label">Henderson-Hasselbalch</span>
+        <span class="formula-expr">pH = pKₐ + log₁₀([A⁻] / [HA])</span>
+      </div>
+
+      <div class="solve-modes" id="hh-modes">
+        <button class="mode-btn active" data-hmode="ph">Find pH</button>
+        <button class="mode-btn" data-hmode="ratio">Find ratio [A⁻]/[HA]</button>
+        <button class="mode-btn" data-hmode="pka">Find pKₐ</button>
+      </div>
+
+      <!-- Find pH -->
+      <div id="hh-form-ph">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>pKₐ of the acid</label>
+            <input type="number" id="hh-pka-ph" placeholder="e.g. 4.76" step="0.01" />
+          </div>
+          <div class="field-group">
+            <label>Ratio [A⁻] / [HA]</label>
+            <input type="number" id="hh-ratio-ph" placeholder="e.g. 1.0 for equal parts" step="0.001" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcHH_pH()">Calculate pH</button>
+        <button class="reset-btn" onclick="resetHH()">Reset</button>
+        <div id="hh-result-ph" style="display:none;margin-top:1.5rem">
+          <div class="ph-indicator"><div class="ph-marker" id="hh-ph-marker"></div></div>
+          <div class="ph-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>7</span><span>8</span><span>10</span><span>12</span><span>14</span></div>
+          <div class="hh-result-row">
+            <div class="hh-result-box" id="hh-ph-box">
+              <div class="hh-lbl">pH</div>
+              <div class="hh-val" id="hh-ph-val">—</div>
+              <div class="hh-note" id="hh-ph-note"></div>
+            </div>
+            <div class="hh-result-box">
+              <div class="hh-lbl">Buffer region</div>
+              <div class="hh-val" id="hh-ph-range">—</div>
+              <div class="hh-note">pKₐ ± 1 unit is effective buffering range</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Find ratio -->
+      <div id="hh-form-ratio" style="display:none">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>pKₐ of the acid</label>
+            <input type="number" id="hh-pka-ratio" placeholder="e.g. 4.76" step="0.01" />
+          </div>
+          <div class="field-group">
+            <label>Target pH</label>
+            <input type="number" id="hh-ph-ratio" placeholder="e.g. 5.2" step="0.01" min="0" max="14" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcHH_ratio()">Calculate ratio</button>
+        <button class="reset-btn" onclick="resetHH()">Reset</button>
+        <div class="hh-result-row" id="hh-result-ratio" style="display:none">
+          <div class="hh-result-box" id="hh-ratio-box">
+            <div class="hh-lbl">[A⁻] / [HA] ratio</div>
+            <div class="hh-val" id="hh-ratio-val">—</div>
+            <div class="hh-note" id="hh-ratio-note"></div>
+          </div>
+          <div class="hh-result-box">
+            <div class="hh-lbl">% conjugate base (A⁻)</div>
+            <div class="hh-val" id="hh-ratio-pct">—</div>
+            <div class="hh-note">fraction of total buffer in base form</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Find pKa -->
+      <div id="hh-form-pka" style="display:none">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>Measured pH</label>
+            <input type="number" id="hh-ph-pka" placeholder="e.g. 5.0" step="0.01" min="0" max="14" />
+          </div>
+          <div class="field-group">
+            <label>Ratio [A⁻] / [HA]</label>
+            <input type="number" id="hh-ratio-pka" placeholder="e.g. 1.74" step="0.001" min="0" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcHH_pKa()">Calculate pKₐ</button>
+        <button class="reset-btn" onclick="resetHH()">Reset</button>
+        <div class="hh-result-row" id="hh-result-pka" style="display:none">
+          <div class="hh-result-box" id="hh-pka-box">
+            <div class="hh-lbl">pKₐ</div>
+            <div class="hh-val" id="hh-pka-val">—</div>
+            <div class="hh-note" id="hh-pka-note"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /buf-hh-panel -->
+
+    <!-- ════════ REFERENCE TABLE ════════ -->
+    <div id="buf-ref-panel" style="display:none">
+      <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:1.25rem">Common laboratory buffers with their useful pH range, pKₐ values at 25°C, and key notes.</p>
+      <div style="overflow-x:auto;border:1px solid var(--border);border-radius:4px">
+        <table class="buf-ref-table">
+          <thead>
+            <tr>
+              <th>Buffer</th>
+              <th>pKₐ (25°C)</th>
+              <th>Useful pH range</th>
+              <th>pH range</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Formate</td><td>3.75</td><td>3.0 – 4.5</td><td><div class="buf-ph-bar" style="width:45px;margin-left:calc((3.0/14)*80px)"></div></td><td>Low-pH work; volatile — evaporates on drying</td></tr>
+            <tr><td>Acetate</td><td>4.76</td><td>3.6 – 5.6</td><td><div class="buf-ph-bar" style="width:57px;margin-left:calc((3.6/14)*80px)"></div></td><td>Most common low-pH buffer; cheap, non-toxic</td></tr>
+            <tr><td>Citrate</td><td>3.13 / 4.76 / 6.40</td><td>3.0 – 6.2</td><td><div class="buf-ph-bar" style="width:69px;margin-left:calc((3.0/14)*80px)"></div></td><td>Broad range due to 3 pKₐ values; can chelate metal ions</td></tr>
+            <tr><td>MES</td><td>6.15</td><td>5.5 – 6.7</td><td><div class="buf-ph-bar" style="width:40px;margin-left:calc((5.5/14)*80px)"></div></td><td>Good zwitterionic buffer; minimal metal ion interaction</td></tr>
+            <tr><td>PIPES</td><td>6.76</td><td>6.1 – 7.5</td><td><div class="buf-ph-bar" style="width:57px;margin-left:calc((6.1/14)*80px)"></div></td><td>Zwitterionic; good for cell biology; does not penetrate cells</td></tr>
+            <tr><td>Phosphate (NaH₂PO₄ / Na₂HPO₄)</td><td>7.20</td><td>5.8 – 8.0</td><td><div class="buf-ph-bar" style="width:63px;margin-left:calc((5.8/14)*80px)"></div></td><td>Most widely used physiological buffer; can precipitate Ca²⁺/Mg²⁺</td></tr>
+            <tr><td>MOPS</td><td>7.20</td><td>6.5 – 7.9</td><td><div class="buf-ph-bar" style="width:51px;margin-left:calc((6.5/14)*80px)"></div></td><td>Zwitterionic; minimal interference with enzyme assays</td></tr>
+            <tr><td>HEPES</td><td>7.48</td><td>6.8 – 8.2</td><td><div class="buf-ph-bar" style="width:51px;margin-left:calc((6.8/14)*80px)"></div></td><td>Excellent for cell culture; low toxicity; stable 4°C stock</td></tr>
+            <tr><td>Tris</td><td>8.06</td><td>7.0 – 9.0</td><td><div class="buf-ph-bar" style="width:57px;margin-left:calc((7.0/14)*80px)"></div></td><td>Very common; pKₐ decreases 0.028/°C — always adjust pH at working temp</td></tr>
+            <tr><td>Borate</td><td>9.24</td><td>8.0 – 10.0</td><td><div class="buf-ph-bar" style="width:57px;margin-left:calc((8.0/14)*80px)"></div></td><td>Alkaline work; can complex with polyols and sugars</td></tr>
+            <tr><td>Bicarbonate</td><td>10.33</td><td>9.2 – 10.8</td><td><div class="buf-ph-bar" style="width:46px;margin-left:calc((9.2/14)*80px)"></div></td><td>Open-system CO₂ equilibrium — use sealed containers</td></tr>
+            <tr><td>CAPS</td><td>10.40</td><td>9.7 – 11.1</td><td><div class="buf-ph-bar" style="width:43px;margin-left:calc((9.7/14)*80px)"></div></td><td>High-pH work; common in Western blot transfer buffers</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tips-box" style="margin-top:1.5rem">
+        <h4>Choosing the right buffer</h4>
+        <ul>
+          <li>Pick a buffer whose pKₐ is within 1 pH unit of your target pH — this is the buffering range where it works best.</li>
+          <li>For biological systems: use HEPES or MOPS; avoid phosphate when working with Ca²⁺ or Mg²⁺.</li>
+          <li>For Tris buffers: always adjust pH at the temperature you will use the buffer — not at room temp then in the cold room.</li>
+          <li>Zwitterionic buffers (MES, PIPES, HEPES, MOPS) generally have less interference with enzyme assays and metal chelation.</li>
+        </ul>
+      </div>
+    </div><!-- /buf-ref-panel -->
+
+  </div><!-- /tab-buffer -->
+
+  <script src="shared.js" defer></script>
+</body>
+</html>

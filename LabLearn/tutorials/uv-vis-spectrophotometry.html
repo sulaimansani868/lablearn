@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UV-Vis Spectrophotometry Explained | LabLearn Tutorials</title>
+  <!-- ═══ SEO META TAGS ═══════════════════════════════════════════════════
+       HOW TO UPDATE:
+       · description → keep under 160 characters for best Google display
+       · og:url      → update to your real domain after deploying
+       · og:image    → add a path to a 1200×630 banner image if you have one
+       ══════════════════════════════════════════════════════════════════ -->
+  <meta name="description"        content="Beer-Lambert law, calibration curves, cuvette selection, blanking technique, protein assay comparison, and error sources — a complete practical guide to UV-Vis spectrophotometry." />
+  <meta name="keywords"           content="UV-Vis spectrophotometry, Beer-Lambert law, calibration curve, absorbance, spectrophotometer, protein assay, Bradford BCA" />
+  <meta name="author"             content="LabLearn" />
+  <meta name="robots"             content="index, follow" />
+
+  <!-- Open Graph — controls how the page looks when shared on WhatsApp,
+       Facebook, LinkedIn etc. The image below is optional but recommended. -->
+  <meta property="og:type"        content="article" />
+  <meta property="og:site_name"   content="LabLearn" />
+  <meta property="og:title"       content="UV-Vis Spectrophotometry Explained | LabLearn Tutorials" />
+  <meta property="og:description" content="Beer-Lambert law, calibration curves, cuvette selection, blanking technique, protein assay comparison, and error sources — a complete practical guide to UV-Vis spectrophotometry." />
+  <meta property="og:url"         content="https://lablearn.netlify.app/tutorials/uv-vis-spectrophotometry.html" />
+  <!-- <meta property="og:image" content="https://lablearn.netlify.app/og-image.jpg" /> -->
+  <!-- og:image should be 1200 × 630 px. Uncomment and add path when ready. -->
+
+  <!-- Twitter / X card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="UV-Vis Spectrophotometry Explained | LabLearn Tutorials" />
+  <meta name="twitter:description" content="Beer-Lambert law, calibration curves, cuvette selection, blanking technique, protein assay comparison, and error sources — a complete practical guide to UV-Vis spectrophotometry." />
+
+  <!-- Canonical URL — tells Google which URL is the definitive version.
+       Update SITE_URL to your real domain after deploying to Netlify. -->
+  <link rel="canonical" href="https://lablearn.netlify.app/tutorials/uv-vis-spectrophotometry.html" />
+
+  <!-- Favicon — uses the SVG in the root folder (works in all modern browsers) -->
+  <link rel="icon"             type="image/svg+xml" href="../favicon.svg" />
+  <link rel="alternate icon"   type="image/png"     href="../favicon.png" />
+    <link rel="stylesheet" href="../shared.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tutorial.css" />
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Lab<span>Learn</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Tutorials</a></li>
+      <li><a href="../calculator.html">Calculators</a></li>
+      <li><a href="../apps.html">Apps</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../index.html#donate">Donate</a></li>
+    </ul>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile">
+      <a href="../tutorials/index.html">Tutorials</a>
+      <a href="../calculator.html">Calculators</a>
+      <a href="../apps.html">Apps</a>
+      <a href="../contact.html">Contact</a>
+      <a href="../index.html#donate">Donate</a>
+      <a href="../tutorials/index.html" class="mob-cta">Start Learning</a>
+  </div>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a><span>›</span>
+        <a href="index.html">Tutorials</a><span>›</span>
+        <span>UV-Vis Spectrophotometry</span>
+      </div>
+      <span class="level-badge level-intermediate">Intermediate</span>
+      <h1>UV-Vis Spectrophotometry Explained</h1>
+      <div class="page-header-meta">
+        <span class="meta-item">📖 18 min read</span>
+        <span class="meta-item">🔬 Instrumentation</span>
+        <span class="meta-item">📅 Updated 2025</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tutorial-layout">
+    <aside class="toc-sidebar">
+      <div class="toc-box">
+        <div class="toc-label">On this page</div>
+        <ul class="toc-list">
+          <li><a href="#intro">What is UV-Vis?</a></li>
+          <li><a href="#principle">Principle of operation</a></li>
+          <li><a href="#beer-lambert">Beer-Lambert Law</a></li>
+          <li class="sub"><a href="#limitations">Limitations</a></li>
+          <li><a href="#instrument">Instrument components</a></li>
+          <li><a href="#wavelength">Choosing wavelength</a></li>
+          <li><a href="#cuvettes">Cuvette selection</a></li>
+          <li><a href="#blanking">Blanking and zeroing</a></li>
+          <li><a href="#calibration">Building a calibration curve</a></li>
+          <li class="sub"><a href="#linearity">Checking linearity</a></li>
+          <li><a href="#protein-assays">Protein quantification assays</a></li>
+          <li><a href="#errors">Sources of error</a></li>
+          <li><a href="#takeaways">Key takeaways</a></li>
+        </ul>
+        <hr class="toc-divider" />
+        <a class="toc-calc-link" href="../calculator.html">⚗️ Concentration Calculators</a>
+      </div>
+    </aside>
+
+    <article class="article">
+
+      <h2 id="intro">What is UV-Vis spectrophotometry?</h2>
+      <p>UV-Vis spectrophotometry is one of the most widely used analytical techniques in science. It measures how much light a solution <strong>absorbs</strong> or <strong>transmits</strong> at specific wavelengths in the ultraviolet (190–400 nm) and visible (400–700 nm) regions of the electromagnetic spectrum.</p>
+      <p>Because many chemical compounds absorb light in a characteristic, concentration-dependent way, this technique can rapidly quantify dissolved substances — from protein and DNA concentrations to heavy metal ion concentrations in environmental water samples — quickly, non-destructively (the sample can often be recovered), and without the need for complex separation steps.</p>
+
+      <h2 id="principle">Principle of operation</h2>
+      <p>Light from a lamp (usually a tungsten-halogen lamp for visible light and a deuterium lamp for UV) passes through a monochromator that selects a narrow band of wavelengths. This light beam is then split: one beam passes through the sample, the other through a reference (blank). The detector measures the intensities of both beams and calculates the ratio.</p>
+      <p>The key measurement is <strong>absorbance (A)</strong>, also called optical density (OD), defined as:</p>
+
+      <div class="box box-formula">
+        <div class="box-label">Absorbance</div>
+        <div class="formula">A = log₁₀ (I₀ / I)</div>
+        <div class="formula-note">I₀ = intensity of incident light; I = intensity of transmitted light through the sample</div>
+      </div>
+
+      <p>Absorbance is dimensionless. A sample with A = 1 transmits 10% of incident light; A = 2 transmits 1%; A = 0 transmits 100% (no absorption).</p>
+
+      <h2 id="beer-lambert">The Beer-Lambert Law</h2>
+      <p>The cornerstone of quantitative UV-Vis spectrophotometry is the Beer-Lambert Law, which relates absorbance to concentration:</p>
+
+      <div class="box box-formula">
+        <div class="box-label">Beer-Lambert Law</div>
+        <div class="formula">A = ε × c × l</div>
+        <div class="formula-note">ε = molar absorptivity (L·mol⁻¹·cm⁻¹) · c = concentration (mol/L) · l = path length (cm)</div>
+      </div>
+
+      <p>This law states that absorbance is <strong>directly proportional to concentration</strong>, provided the path length and wavelength are held constant. This linearity is what makes quantification possible from a calibration curve.</p>
+
+      <div class="box box-example">
+        <div class="box-label">Worked example — calculating concentration from absorbance</div>
+        <div class="step"><div class="step-n">1</div><div>A solution of potassium permanganate (KMnO₄) gives an absorbance of 0.524 at 525 nm using a 1 cm cuvette.</div></div>
+        <div class="step"><div class="step-n">2</div><div>The molar absorptivity of KMnO₄ at 525 nm: ε = 2,420 L·mol⁻¹·cm⁻¹</div></div>
+        <div class="step"><div class="step-n">3</div><div>Rearranging Beer-Lambert: c = A / (ε × l) = 0.524 / (2420 × 1)</div></div>
+        <div class="result">c = 2.165 × 10⁻⁴ mol/L KMnO₄</div>
+      </div>
+
+      <h3 id="limitations">Limitations of Beer-Lambert Law</h3>
+      <p>Beer-Lambert linearity only holds under specific conditions. Deviations occur when:</p>
+      <ul>
+        <li><strong>Absorbance is too high (>1.5 AU)</strong> — stray light becomes significant, and the detector response is non-linear. Keep absorbance between 0.1 and 1.0 for best accuracy.</li>
+        <li><strong>High concentrations</strong> — solute-solute interactions change the effective absorptivity. Dilute samples if they are concentrated.</li>
+        <li><strong>Polychromatic light</strong> — Beer-Lambert assumes monochromatic light; broadband instruments may give apparent deviations.</li>
+        <li><strong>Chemical equilibria</strong> — if the analyte exists in multiple forms with different absorptivities (e.g. pH-dependent species), the law may not apply without pH control.</li>
+        <li><strong>Scattering</strong> — turbid, colloidal, or particulate samples scatter light, giving falsely elevated apparent absorbance readings.</li>
+      </ul>
+
+      <h2 id="instrument">Instrument components</h2>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Component</th><th>Function</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Light source</td><td>Emits broad-spectrum light</td><td>Deuterium (UV, 190–400 nm) + tungsten-halogen (vis, 350–700 nm)</td></tr>
+            <tr><td>Monochromator</td><td>Selects narrow wavelength band</td><td>Prism or diffraction grating; defines spectral bandwidth</td></tr>
+            <tr><td>Sample compartment</td><td>Holds the cuvette</td><td>Keep lid closed to exclude stray light</td></tr>
+            <tr><td>Detector</td><td>Measures transmitted light intensity</td><td>Photodiode or photomultiplier tube (PMT)</td></tr>
+            <tr><td>Readout</td><td>Displays absorbance or % transmittance</td><td>Modern instruments connect to computer software</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="wavelength">Choosing the measurement wavelength</h2>
+      <p>Always measure at or near the <strong>λ_max</strong> — the wavelength of maximum absorbance for your analyte. At λ_max, sensitivity is highest and the relationship between absorbance and concentration is most linear. To find λ_max, scan the full spectrum of your analyte at a known concentration and identify the peak.</p>
+
+      <div class="box box-note">
+        <div class="box-label">Common λ_max values</div>
+        <p>KMnO₄ ≈ 525 nm (purple) · CuSO₄ ≈ 810 nm (blue) · p-nitrophenol ≈ 405 nm · Haemoglobin (oxygenated) ≈ 541 nm · DNA/RNA ≈ 260 nm · Protein (aromatic residues) ≈ 280 nm</p>
+      </div>
+
+      <h2 id="cuvettes">Cuvette selection</h2>
+      <p>Cuvettes are the containers that hold your sample in the light path. Selecting the wrong material is one of the most common beginner mistakes:</p>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Material</th><th>Usable range</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Glass or borosilicate</td><td>Visible only (>320 nm)</td><td>Absorbs UV — do NOT use for DNA/protein measurements at 260–280 nm</td></tr>
+            <tr><td>Optical plastic / PS</td><td>Visible only (>340 nm)</td><td>Disposable, cheap, but cannot be used in UV range</td></tr>
+            <tr><td>Quartz (fused silica)</td><td>UV + Visible (190–2500 nm)</td><td>Required for all UV measurements; expensive; handle with care; clean immediately after use</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Always handle quartz cuvettes by the opaque frosted sides — never the clear optical faces. Fingerprints contain oils that absorb UV and will ruin your readings.</p>
+
+      <h2 id="blanking">Blanking and zeroing</h2>
+      <p>Before measuring any sample, you must zero the instrument against a <strong>blank</strong> — a cuvette containing everything in your sample <em>except</em> the analyte. The blank accounts for the absorbance of the solvent, buffer salts, colorimetric reagents, and any cuvette variation.</p>
+
+      <div class="box box-danger">
+        <div class="box-label">⛔ Using the wrong blank</div>
+        <p>Using distilled water as a blank when your samples are in a coloured buffer will cause all your absorbance readings to be too high. Always blank against the same matrix your samples are in — the same buffer, pH, and same reagent concentrations, minus only the analyte.</p>
+      </div>
+
+      <h2 id="calibration">Building a calibration curve</h2>
+      <p>A calibration curve (standard curve) is a plot of absorbance (y-axis) against known concentration (x-axis) for a set of standards. It allows you to read off the concentration of any unknown sample by its absorbance.</p>
+
+      <div class="box box-example">
+        <div class="box-label">Calibration curve — step-by-step</div>
+        <div class="step"><div class="step-n">1</div><div>Prepare at least <strong>5–7 standard solutions</strong> covering the expected concentration range of your unknowns, plus a blank (0 concentration).</div></div>
+        <div class="step"><div class="step-n">2</div><div>Measure the absorbance of each standard at λ_max. Run each in duplicate or triplicate if possible.</div></div>
+        <div class="step"><div class="step-n">3</div><div>Plot absorbance (y) vs. concentration (x). Fit a linear trendline through the data points.</div></div>
+        <div class="step"><div class="step-n">4</div><div>Check R² — a well-constructed calibration curve should have R² ≥ 0.998. If lower, investigate your technique or standards.</div></div>
+        <div class="step"><div class="step-n">5</div><div>Measure the absorbance of your unknown. Use the curve equation (or solve A = ε·c·l) to calculate its concentration.</div></div>
+        <div class="result">Only report concentrations that fall within the calibrated range — do not extrapolate beyond your highest standard.</div>
+      </div>
+
+      <h3 id="linearity">Checking linearity</h3>
+      <p>If your calibration curve bends upward at high concentrations, you are exceeding the linear dynamic range — dilute those samples. If it bends downward, you are likely hitting detector saturation (A > 2). The usable linear range is typically A = 0.05 to 1.5, with optimal accuracy between 0.1 and 1.0.</p>
+
+      <h2 id="protein-assays">Common protein quantification assays</h2>
+      <p>UV-Vis is the basis of the most widely used protein concentration assays in biochemistry:</p>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Assay</th><th>Wavelength</th><th>Principle</th><th>Pros / Cons</th></tr></thead>
+          <tbody>
+            <tr><td>Direct UV (A₂₈₀)</td><td>280 nm</td><td>Absorbance of Trp, Tyr residues</td><td>Fast, non-destructive; inaccurate without known ε; interfered by nucleic acids</td></tr>
+            <tr><td>Bradford</td><td>595 nm</td><td>Coomassie G-250 dye binding</td><td>Sensitive, fast; detergent-incompatible; BSA standard curve required</td></tr>
+            <tr><td>BCA</td><td>562 nm</td><td>Biuret + copper chelation with bicinchoninic acid</td><td>Detergent-compatible; interfered by reducing agents (DTT, β-ME)</td></tr>
+            <tr><td>Lowry</td><td>750 nm</td><td>Folin-Ciocalteu + copper</td><td>Sensitive; many interferences; slow (40–60 min); largely superseded by BCA</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="errors">Sources of error in UV-Vis measurements</h2>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Error source</th><th>Effect</th><th>Prevention</th></tr></thead>
+          <tbody>
+            <tr><td>Wrong cuvette material</td><td>High background absorbance in UV</td><td>Use quartz for <320 nm; plastic/glass for visible only</td></tr>
+            <tr><td>Dirty or scratched cuvette</td><td>Elevated absorbance, variability</td><td>Rinse 3× with sample before measuring; inspect for scratches</td></tr>
+            <tr><td>Air bubbles</td><td>Scattering — falsely high A</td><td>Tap cuvette gently; ensure sample is bubble-free</td></tr>
+            <tr><td>Incorrect blank</td><td>Systematic offset in all readings</td><td>Match blank matrix to sample matrix exactly</td></tr>
+            <tr><td>Turbid sample</td><td>Apparent absorbance increase from scattering</td><td>Centrifuge or filter; measure at a second wavelength to estimate scatter contribution</td></tr>
+            <tr><td>Stray light</td><td>Negative deviation from Beer-Lambert at high A</td><td>Keep A below 1.5; use high-quality monochromator instrument</td></tr>
+            <tr><td>Wrong wavelength</td><td>Lower sensitivity, less linear range</td><td>Always scan and identify true λ_max</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="takeaways">
+        <div class="takeaways-label">Key takeaways</div>
+        <h3>What to remember from this tutorial</h3>
+        <ul>
+          <li>Beer-Lambert: A = ε × c × l — absorbance is directly proportional to concentration and path length.</li>
+          <li>Always measure at λ_max to maximise sensitivity and linearity.</li>
+          <li>Use quartz cuvettes for all UV measurements (<320 nm). Glass and plastic only work in the visible range.</li>
+          <li>Blank against your sample matrix — same buffer, same reagents — not just water.</li>
+          <li>Optimal absorbance range for accuracy: 0.1 – 1.0 AU. Dilute or concentrate accordingly.</li>
+          <li>A calibration curve needs at least 5 standards, should pass through zero, and ideally has R² ≥ 0.998.</li>
+          <li>Never extrapolate beyond your highest calibration standard when reporting concentrations.</li>
+        </ul>
+      </div>
+
+      <div class="tut-nav">
+        <a class="tut-nav-card" href="lab-safety.html">
+          <span class="tut-nav-dir">← Previous</span>
+          <span class="tut-nav-title">Lab Safety: Chemical Hazard Classes</span>
+        </a>
+        <a class="tut-nav-card next" href="standard-solutions.html">
+          <span class="tut-nav-dir">Next tutorial →</span>
+          <span class="tut-nav-title">Preparing Standard Solutions Accurately</span>
+        </a>
+      </div>
+
+    </article>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Lab<span>Learn</span></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Tutorials</a></li>
+      <li><a href="../calculator.html">Calculators</a></li>
+      <li><a href="../index.html#donate">Donate</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 LabLearn.</div>
+  </footer>
+  <script src="../shared.js" defer></script>
+</body>
+</html>
